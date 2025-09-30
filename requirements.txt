@@ -1,0 +1,8 @@
+numpy==1.26.4
+tensorflow==2.18.0
+mediapipe==0.10.21
+opencv-python-headless==4.11.0.86
+flask==2.3.3
+flask-socketio==5.3.4
+eventlet==0.33.3
+pandas>=2.0

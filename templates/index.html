@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VSLI</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter','Poppins',Arial,sans-serif;
+      background: linear-gradient(120deg,#262d47 0%,#4557ed 100%);
+      color: #f4f7fb;
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    header {
+      width: 100vw; max-width: 1100px; background: rgba(41,55,101,0.98);
+      color: #fff; text-align: center; padding: 36px 0 24px;
+      font-size: 2.4rem; font-weight: 800; border-radius: 0 0 40px 40px;
+      box-shadow: 0 8px 32px rgba(44,87,190,0.25);
+    }
+    nav {
+      width: 100%; max-width: 1100px; margin: 24px 0 0;
+      background: rgba(61,80,151,0.88); border-radius: 34px;
+      box-shadow: 0 2px 16px #1d2444a8; display: flex; justify-content: center;
+    }
+    nav button {
+      flex: 1 1 180px; background: none; border: none; outline: none;
+      color: #e1e7f6; padding: 18px 0; font-size: 1rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      border-radius: 24px 24px 0 0; cursor: pointer;
+    }
+    nav button.active, nav button:hover {
+      background: linear-gradient(100deg,#7aaaff 30%,#48cccf 90%);
+      color: #192843; box-shadow: 0 4px 26px #5e7ad633;
+    }
+    main {
+      width: 100%; max-width: 900px; min-height: 72vh;
+      margin: 32px 0 50px; background: rgba(255,255,255,0.08);
+      border-radius: 35px; box-shadow: 0 14px 48px #231a4459;
+      padding: 30px; display: flex; flex-direction: column; align-items: center;
+    }
+    section { width: 100%; display: none; }
+    section.active { display: block; }
+    h1,h2 { font-weight: 900; color: #ffe18b; margin-bottom: 16px; }
+    h1 { font-size: 2rem; } h2 { font-size: 1.4rem; }
+    p, ul { font-size: 1.1rem; margin-bottom: 17px; line-height: 1.6; }
+    ul { padding-left: 28px; color: #82e1e5; }
+    video {
+      border-radius: 18px; width: 97%; max-width: 670px; max-height: 380px;
+      object-fit: cover; box-shadow: 0 9px 34px #0088f6a0;
+      border: 4px solid #76e8f7; background: #181e39; margin: 15px 0;
+    }
+    .translation-box {
+      width: 80px; height: 80px; border-radius: 16px; border: 3px solid #ffe18b;
+      background: #192028; color: #ffe18b; font-size: 2.5rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin: 18px auto; box-shadow: 0 4px 18px #ffe18b55;
+    }
+    .simulate-btn {
+      background: linear-gradient(90deg,#ffe18b 0%,#fba060 100%);
+      color: #1a253f; border: none; padding: 12px 36px; font-size: 1rem;
+      font-weight: 700; border-radius: 30px; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>Virtual Sign Language Interpreter</header>
+  <nav>
+    <button id="tabHome" class="active">Home</button>
+    <button id="tabInterpreter">Interpreter</button>
+    <button id="tabAbout">About</button>
+  </nav>
+  <main>
+    <!-- Home -->
+    <section id="homeSection" class="active">
+      <h1>Welcome</h1>
+      <p>Click Interpreter tab to start translating sign language in real-time!</p>
+    </section>
+    <!-- Interpreter -->
+    <section id="interpreterSection">
+      <h2>Interpreter</h2>
+      <video id="video" autoplay playsinline muted></video>
+      <canvas id="captureCanvas" style="display:none"></canvas>
+      <div class="translation-box" id="singleLetterBox"></div>
+      <button class="simulate-btn" id="simulateBtn">Simulate</button>
+    </section>
+    <!-- About -->
+    <section id="aboutSection">
+      <h2>About</h2>
+      <p>This project demonstrates Indian Sign Language detection using MediaPipe + TensorFlow, integrated with a Flask-SocketIO backend and a modern web frontend.</p>
+    </section>
+  </main>
+
+  <!-- Socket.IO -->
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    const tabs = {
+      tabHome: "homeSection",
+      tabInterpreter: "interpreterSection",
+      tabAbout: "aboutSection"
+    };
+    for (let id in tabs) {
+      document.getElementById(id).addEventListener("click", () => {
+        for (let btn in tabs) {
+          document.getElementById(btn).classList.remove("active");
+          document.getElementById(tabs[btn]).classList.remove("active");
+        }
+        document.getElementById(id).classList.add("active");
+        document.getElementById(tabs[id]).classList.add("active");
+        if (id === "tabInterpreter") startWebcam();
+        else stopWebcam();
+      });
+    }
+
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("captureCanvas");
+    const singleLetterBox = document.getElementById("singleLetterBox");
+    let stream = null, captureInterval = null;
+
+    const socket = io(); // connect to Flask backend
+    socket.on("prediction", (data) => {
+      singleLetterBox.textContent = data.letter || "";
+    });
+
+    async function startWebcam() {
+      if (stream) return;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+        video.onloadedmetadata = () => {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          startSendingFrames(120);
+        };
+      } catch (err) {
+        alert("Camera access denied or unavailable.");
+      }
+    }
+    function stopWebcam() {
+      if (captureInterval) { clearInterval(captureInterval); captureInterval = null; }
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+        video.srcObject = null;
+      }
+    }
+    function startSendingFrames(intervalMs) {
+      if (captureInterval) return;
+      const ctx = canvas.getContext("2d");
+      captureInterval = setInterval(() => {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const dataURL = canvas.toDataURL("image/jpeg", 0.7);
+        const base64 = dataURL.split(",")[1];
+        socket.emit("frame", { image: base64 });
+      }, intervalMs);
+    }
+
+    // Simulate random letter
+    document.getElementById("simulateBtn").addEventListener("click", () => {
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      singleLetterBox.textContent = letters[Math.floor(Math.random() * letters.length)];
+    });
+  </script>
+</body>
+</html>
