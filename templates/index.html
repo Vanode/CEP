@@ -238,30 +238,59 @@
   </style>
 </head>
 <body>
-  <header>Virtual Sign Language Interpreter</header>
-  <nav>
-    <button id="tabHome" class="active">Home</button>
-    <button id="tabInterpreter">Interpreter</button>
-    <button id="tabAbout">About</button>
+  <header>
+    <center><img src = HASTAKSHAR.png style="height: 200px;margin-bottom: 18px;"></center><h1>Virtual Sign Language Interpreter</h1>
+  </header>
+  <nav role="tablist" aria-label="Main Navigation Tabs">
+    <button id="tabHome" class="active" aria-selected="true" aria-controls="homeSection" role="tab" tabindex="0">Home</button>
+    <button id="tabInterpreter" aria-selected="false" aria-controls="interpreterSection" role="tab" tabindex="-1">Interpreter</button>
+    <button id="tabAbout" aria-selected="false" aria-controls="aboutSection" role="tab" tabindex="-1">About</button>
   </nav>
   <main>
     <!-- Home -->
     <section id="homeSection" class="active">
-      <h1>Welcome</h1>
-      <p>Click Interpreter tab to start translating sign language in real-time!</p>
+      <section id="homeSection" class="tabContent active" role="tabpanel" aria-labelledby="tabHome">
+      <center><h1>WELCOME</h1>
+      <p><h1>Click Interpreter tab to start translating sign language in real-time!</h1></p></center><br>
+       <p>Break language barriers with our modern, AI-ready American Sign Language platform. Accessible, intuitive, and lightning-fast.</p>
+      <ul>
+        <li>Real-time ASL gesture capture using your webcam</li>
+        <li>Minimal, modern, and distraction-free interface</li>
+        <li>Optimized for mobile, tablet, and desktop</li>
+        <li>Perfect for learners, educators, and everyone in-between</li>
+      </ul>
     </section>
     <!-- Interpreter -->
-    <section id="interpreterSection">
-      <h2>Interpreter</h2>
+    <section id="interpreterSection" class="tabContent" role="tabpanel" aria-labelledby="tabInterpreter">
+      <center><h1>INTERPRETER</h1></h1><center>
+      <br><br>
       <video id="video" autoplay playsinline muted></video>
-      <canvas id="captureCanvas" style="display:none"></canvas>
-      <div class="translation-box" id="singleLetterBox"></div>
-      <button class="simulate-btn" id="simulateBtn">Simulate</button>
+       <br><br>
+      <div class="translation-box" id="singleLetterBox" aria-label="Single letter translation output"></div>
+      <button class="simulate-btn" id="simulateBtn" aria-live="polite" aria-atomic="true">Simulate Translation</button>
+      <p class="instruction">Show a letter sign to your camera &mdash; the corresponding letter will appear above.</p>
     </section>
     <!-- About -->
-    <section id="aboutSection">
-      <h2>About</h2>
-      <p>This project demonstrates Indian Sign Language detection using MediaPipe + TensorFlow, integrated with a Flask-SocketIO backend and a modern web frontend.</p>
+    <section id="aboutSection" class="tabContent" role="tabpanel" aria-labelledby="tabAbout">
+      <center><h1>ABOUT THE PROJECT</h1><br></center>
+      <p>This website offers an interactive, web-based approach for American Sign Language communication and learning. Created using cutting-edge HTML, CSS, and JavaScript for frontend & TensorFlow, Flask and OpenCV for backend. It puts accessibility first and brings sign language technology to everyone.</p>
+      <ul>
+        <li><strong>Purpose:</strong> Promote inclusivity and everyday communication</li>
+        <li><strong>Features:</strong> Smooth UI, webcam-enabled sign interpreter, instant feedback</li>
+        <li><strong>Upcoming:</strong> Real machine learning translation, extended sign support</li>
+      </ul>
+      <p><strong>We welcome suggestions, feedback, and collaborations!</strong></p>
+      <br>
+      <p>Made by: </p>
+      <p>2nd year Electronics & Computer Engineering Students from PICT</p>
+      <ul>
+        <li>25128 - Shivam Khamkar</li>
+        <li>25163 - Soham Sawant</li>
+        <li>25171 - Sujal Supekar</li>
+        <li>25173 - Vajra Thatte</li>
+        <li>25174 - Varad Tonpe</li>
+        <li>25176 - Gandhar Deshmukh</li>
+      </ul>
     </section>
   </main>
 
