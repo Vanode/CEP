@@ -1,279 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>VSLI</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin:0; padding:0; }
     body {
-      background: linear-gradient(135deg, #1e2a38, #3a5068); /* dark blue steel gradient */
-      color: #f4f7fb; /* light text for readability */
-      font-family: 'Inter', 'Poppins', Arial, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: background 0.4s;
+      background: linear-gradient(135deg,#1e2a38,#3a5068);
+      color: #f4f7fb;
+      font-family: 'Inter','Poppins',Arial,sans-serif;
+      min-height:100vh; display:flex; flex-direction:column; align-items:center;
     }
     header {
-      width: 100vw;
-      max-width: 1100px;
-      background: rgba(58, 80, 104, 0.85); /* semi-transparent darker blue */
-      color: #f4f7fb;
-      text-align: center;
-      padding: 36px 0 24px;
-      font-size: 2.4rem;
-      font-weight: 800;
-      border-radius: 0 0 40px 40px;
-      box-shadow: 0 8px 32px rgba(69, 123, 255, 0.25);
-      text-shadow: 0 6px 40px #3683d6b4;
-      user-select: none;
+      width:100vw; max-width:1100px;
+      background: rgba(58,80,104,0.9); color:#f4f7fb; text-align:center;
+      padding:28px 0 18px; border-radius:0 0 28px 28px;
+      box-shadow:0 8px 32px rgba(69,123,255,0.22);
     }
+    header img { height:110px; display:block; margin:0 auto 6px auto; }
     nav {
-      width: 100%;
-      max-width: 1100px;
-      margin: 24px 0 0;
-      background: rgba(58, 80, 104, 0.85); /* darker navy */
-      border-radius: 34px;
-      box-shadow: 0 2px 16px rgba(69,123,255,0.3);
-      display: flex;
-      justify-content: center;
-      gap: 0.7rem;
-      overflow: auto;
-      z-index: 1;
+      width:100%; max-width:1100px; margin:18px 0 0;
+      background: rgba(58,80,104,0.85); border-radius:28px;
+      display:flex; justify-content:center; gap:.7rem; padding:6px;
     }
     nav button {
-      flex: 1 1 180px;
-      background: none;
-      border: none;
-      outline: none;
-      color: #f4f7fb;
-      padding: 18px 0;
-      font-size: 1rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      border-radius: 24px 24px 0 0;
-      cursor: pointer;
-      transition: background 0.3s ease, color 0.3s ease;
-      margin: 0 0.25rem;
-      position: relative;
+      flex:1 1 160px; background:none; border:none; color:#f4f7fb;
+      padding:12px 0; font-weight:700; text-transform:uppercase;
+      border-radius:20px; cursor:pointer; position:relative;
     }
+    /* subtle accent instead of big yellow bar */
     nav button.active, nav button:hover {
-      background: linear-gradient(90deg, #76a9fa 0%, #4169e8 100%);
-      color: #f4f7fb;
-      box-shadow: 0 4px 26px rgba(118, 169, 250, 0.35);
-    }
-    nav button.active::after {
-      content: '';
-      display: block;
-      position: absolute;
-      bottom: -3px; left: 35%; right: 35%;
-      border-radius: 5px;
-      height: 6px;
-      background: linear-gradient(90deg,#ffd367,#fad364,#fba060 90%);
-      filter: blur(0.5px);
+      background: linear-gradient(90deg,#5fa0ff,#4a8fe8);
+      color:#08223f;
+      box-shadow:0 6px 22px rgba(74,143,232,0.2);
     }
     main {
-      width: 100%;
-  max-width: 900px;
-  min-height: 72vh;
-  margin: 32px 0 50px;
-  background: rgba(25, 41, 57, 0.75); /* darker transparent blue */
-  border-radius: 35px;
-  box-shadow: 0 14px 48px rgba(69, 123, 255, 0.3);
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #f4f7fb;
+      width:100%; max-width:900px; margin:28px 0 48px;
+      background: rgba(25,41,57,0.75); border-radius:24px; padding:28px;
+      box-shadow:0 14px 48px rgba(69,123,255,0.2);
     }
-    section {
-      width: 100%;
-      display: none;
-      animation: fadeIn 0.6s;
-      background: transparent;
-    }
-    section.active {
-      display: block;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-    h1, h2 {
-      font-weight: 900;
-  color: #76a9fa; /* lighter blue accent */
-  margin-bottom: 16px;
-    }
-    h1 {
-      font-size: 2.3rem;
-    }
-    h2 {
-      font-size: 1.6rem;
-      margin-bottom: 14px;
-    }
-    p, ul {
-      font-size: 1.1rem;
-  margin-bottom: 17px;
-  line-height: 1.6;
-  color: #c4d4fc;
-    }
-    ul {
-      padding-left: 28px;
-  color: #8cafef; /* light blue for lists */
-    }
-    li {margin-bottom: 9px;}
-    strong { color: #48cccf;}
+    section { display:none; width:100%; }
+    section.active { display:block; }
+    h1 { color:#76a9fa; font-weight:900; margin-bottom:12px; text-align:center; }
     video {
-      border-radius: 18px;
-      width: 97%;
-      max-width: 670px;
-      max-height: 380px;
-      object-fit: cover;
-      box-shadow: 0 9px 34px #0088f6a0, 0 0px 0px #38e1e5;
-      border: 4px solid #76e8f7;
-      background-color: #181e39;
-      margin: 15px 0 18px;
-      transition: box-shadow .38s;
+      display:block; margin:0 auto 20px auto;
+      border-radius:14px; width:97%; max-width:700px; max-height:420px;
+      object-fit:cover; border:4px solid #76e8f7; background:#181e39;
+      box-shadow:0 8px 28px rgba(0,136,246,0.18);
     }
-    video:hover {
-      box-shadow: 0 12px 60px #75e3fdb4, 0 0 32px #cbfafa77 inset;
-    }
-    /* For Single Letter Translation Output */
     .translation-box {
-     width: 80px;
-  height: 80px;
-  border-radius: 16px;
-  border: 3px solid #76a9fa;
-  background: #1e2a38;
-  color: #76a9fa;
-  font-size: 2.5rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 18px auto;
-  box-shadow: 0 4px 18px #76a9fa55;
-    }
-    .translation-box:empty::before {
-      content: ' ';
-      display: inline-block;
-      width: 100%;
-      height: 100%;
-      background: transparent;
+      width:90px; height:90px; margin:0 auto 22px auto;
+      border-radius:12px; border:3px solid #76a9fa; background:#102034;
+      color:#76a9fa; display:flex; align-items:center; justify-content:center;
+      font-size:2.4rem; font-weight:800; box-shadow:0 6px 20px rgba(118,169,250,0.12);
     }
     .simulate-btn {
-       background: linear-gradient(90deg, #76a9fa 0%, #4169e8 100%);
-  color: #f4f7fb;
-  border: none;
-  padding: 12px 36px;
-  font-size: 1rem;
-  font-weight: 700;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+      display:block; margin:14px auto; padding:10px 28px; border-radius:28px;
+      border:none; background:linear-gradient(90deg,#76a9fa,#4169e8); color:#fff;
+      font-weight:700; cursor:pointer;
     }
-    .simulate-btn:hover {
-      background: linear-gradient(90deg, #fff6d2 0%, #ffe18b 100%);
-      color: #15413b;
-      box-shadow: 0 6px 36px #ffe8b0cc, 0 0 18px #fffbe3aa inset;
-    }
-    .instruction {
-      font-size: 1.03rem;
-      color: #c6eafa;
-      font-style: italic;
-    }
-    @media (max-width: 640px) {
-      header, nav, main { max-width: 100vw; }
-      nav { border-radius: 24px; }
-      main { padding: 22px 5vw 35px;}
-      video, .translation-box { max-width: 99vw; }
-    }
-    /* Increase font size of Interpreter heading */
-#interpreterSection h2 {
-  font-size: 2rem; /* increased from 1.4rem to a bigger size */
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* Center the video camera */
-#interpreterSection video {
-  display: block;
-  margin: 0 auto 20px auto; /* center horizontally with margin below */
-  border-radius: 18px;
-  width: 97%;
-  max-width: 670px;
-  max-height: 380px;
-  object-fit: cover;
-  box-shadow: 0 9px 34px #0088f6a0;
-  border: 4px solid #76e8f7;
-  background: #181e39;
-}
-
-/* Center the Simulate button */
-#interpreterSection .simulate-btn {
-  display: block;
-  margin: 0 auto;
-}
-#interpreterSection video {
-  display: block;
-  margin: 0 auto 25px auto; /* Add more bottom space below video */
-}
-
-.translation-box {
-  margin: 0 auto 30px auto; /* Add bottom space below translation box */
-}
-
-#interpreterSection .simulate-btn {
-  display: block;
-  margin: 0 auto;
-  margin-top: 20px; /* Add top margin above simulate button */
-}
+    /* hidden canvas */
+    #captureCanvas { display:none; }
+    @media (max-width:640px) { header img {height:90px;} }
   </style>
 </head>
 <body>
   <header>
-    <center><img src = HASTAKSHAR.png style="height: 200px;margin-bottom: 18px;"></center><h1>Virtual Sign Language Interpreter</h1>
+    <!-- Use Flask's url_for to reference static image -->
+    <img src="{{ url_for('static', filename='HASTAKSHAR.png') }}" alt="Logo" style = "height:200px; margin-bottom:18px">
+    <h1>Virtual Sign Language Interpreter</h1>
   </header>
-  <nav role="tablist" aria-label="Main Navigation Tabs">
-    <button id="tabHome" class="active" aria-selected="true" aria-controls="homeSection" role="tab" tabindex="0">Home</button>
-    <button id="tabInterpreter" aria-selected="false" aria-controls="interpreterSection" role="tab" tabindex="-1">Interpreter</button>
-    <button id="tabAbout" aria-selected="false" aria-controls="aboutSection" role="tab" tabindex="-1">About</button>
+
+  <nav>
+    <button id="tabHome" class="active">Home</button>
+    <button id="tabInterpreter">Interpreter</button>
+    <button id="tabAbout">About</button>
   </nav>
+
   <main>
-    <!-- Home -->
     <section id="homeSection" class="active">
-      <section id="homeSection" class="tabContent active" role="tabpanel" aria-labelledby="tabHome">
-      <center><h1>WELCOME</h1>
-      <p><h1>Click Interpreter tab to start translating sign language in real-time!</h1></p></center><br>
-       <p>Break language barriers with our modern, AI-ready American Sign Language platform. Accessible, intuitive, and lightning-fast.</p>
-      <ul>
-        <li>Real-time ASL gesture capture using your webcam</li>
-        <li>Minimal, modern, and distraction-free interface</li>
-        <li>Optimized for mobile, tablet, and desktop</li>
-        <li>Perfect for learners, educators, and everyone in-between</li>
-      </ul>
+      <h1>Welcome</h1>
+      <p style="text-align:center;">Click <strong>Interpreter</strong> to start realtime Indian Sign Language detection.</p>
+      <br>
+         <ul>
+              <li>Real-time Sign Language gesture capture using your webcam</li>
+              <li>Minimal, modern, and distraction-free interface</li>
+              <li>Optimized for mobile, tablet, and desktop</li>
+              <li>Perfect for learners, educators, and everyone in-between</li>
+         </ul>
     </section>
-    <!-- Interpreter -->
-    <section id="interpreterSection" class="tabContent" role="tabpanel" aria-labelledby="tabInterpreter">
-      <center><h1>INTERPRETER</h1></h1><center>
-      <br><br>
+
+    <section id="interpreterSection">
+      <h1>Interpreter</h1>
       <video id="video" autoplay playsinline muted></video>
-       <br><br>
-      <div class="translation-box" id="singleLetterBox" aria-label="Single letter translation output"></div>
-      <button class="simulate-btn" id="simulateBtn" aria-live="polite" aria-atomic="true">Simulate Translation</button>
-      <p class="instruction">Show a letter sign to your camera &mdash; the corresponding letter will appear above.</p>
+      <canvas id="captureCanvas"></canvas> <!-- required for capture -->
+      <div class="translation-box" id="singleLetterBox"></div>
+      <button class="simulate-btn" id="simulateBtn">Simulate Translation</button>
+      <p style="text-align:center;color:#c4d4fc;margin-top:12px;">Show a finger/letter sign to your camera — the corresponding letter will appear above.</p>
     </section>
-    <!-- About -->
-    <section id="aboutSection" class="tabContent" role="tabpanel" aria-labelledby="tabAbout">
-      <center><h1>ABOUT THE PROJECT</h1><br></center>
-      <p>This website offers an interactive, web-based approach for American Sign Language communication and learning. Created using cutting-edge HTML, CSS, and JavaScript for frontend & TensorFlow, Flask and OpenCV for backend. It puts accessibility first and brings sign language technology to everyone.</p>
+
+    <section id="aboutSection">
+      <h1>About the project</h1>
+      <p>This website offers an interactive, web-based approach for American Sign Language communication and learning. Created using cutting-edge HTML, CSS, and JavaScript, it puts accessibility first and brings sign language technology to everyone.</p>
       <ul>
         <li><strong>Purpose:</strong> Promote inclusivity and everyday communication</li>
         <li><strong>Features:</strong> Smooth UI, webcam-enabled sign interpreter, instant feedback</li>
@@ -294,14 +123,10 @@
     </section>
   </main>
 
-  <!-- Socket.IO -->
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
   <script>
-    const tabs = {
-      tabHome: "homeSection",
-      tabInterpreter: "interpreterSection",
-      tabAbout: "aboutSection"
-    };
+    // Tab logic
+    const tabs = { tabHome: "homeSection", tabInterpreter: "interpreterSection", tabAbout: "aboutSection" };
     for (let id in tabs) {
       document.getElementById(id).addEventListener("click", () => {
         for (let btn in tabs) {
@@ -320,7 +145,8 @@
     const singleLetterBox = document.getElementById("singleLetterBox");
     let stream = null, captureInterval = null;
 
-    const socket = io(); // connect to Flask backend
+    const socket = io();
+
     socket.on("prediction", (data) => {
       singleLetterBox.textContent = data.letter || "";
     });
@@ -328,41 +154,57 @@
     async function startWebcam() {
       if (stream) return;
       try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        stream = await navigator.mediaDevices.getUserMedia({ video: { width:640, height:480 }, audio:false });
         video.srcObject = stream;
         video.onloadedmetadata = () => {
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
+          // set canvas size to video
+          canvas.width = video.videoWidth || 640;
+          canvas.height = video.videoHeight || 480;
           startSendingFrames(120);
         };
       } catch (err) {
-        alert("Camera access denied or unavailable.");
+        console.error('getUserMedia error', err);
+        alert("Camera access denied or unavailable. Check site permissions and try again.");
       }
     }
+
     function stopWebcam() {
       if (captureInterval) { clearInterval(captureInterval); captureInterval = null; }
       if (stream) {
-        stream.getTracks().forEach(track => track.stop());
+        stream.getTracks().forEach(t => t.stop());
         stream = null;
         video.srcObject = null;
       }
     }
-    function startSendingFrames(intervalMs) {
+
+    function startSendingFrames(intervalMs = 120) {
       if (captureInterval) return;
       const ctx = canvas.getContext("2d");
       captureInterval = setInterval(() => {
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const dataURL = canvas.toDataURL("image/jpeg", 0.7);
-        const base64 = dataURL.split(",")[1];
-        socket.emit("frame", { image: base64 });
+        try {
+          // mirror the capture to match server flip
+          ctx.save();
+          ctx.scale(-1, 1);
+          ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
+          ctx.restore();
+
+          const dataURL = canvas.toDataURL('image/jpeg', 0.7);
+          const base64 = dataURL.split(',')[1];
+          socket.emit('frame', { image: base64 });
+        } catch (e) {
+          console.warn('frame send error', e);
+        }
       }, intervalMs);
     }
 
-    // Simulate random letter
+    // simulate button
     document.getElementById("simulateBtn").addEventListener("click", () => {
       const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       singleLetterBox.textContent = letters[Math.floor(Math.random() * letters.length)];
     });
+
+    // make sure to stop webcam on page close
+    window.addEventListener('beforeunload', stopWebcam);
   </script>
 </body>
 </html>
