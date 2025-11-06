@@ -17,6 +17,7 @@ socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
 
 # Load model
 model = keras.models.load_model("model.h5")
+model.summary()
 
 # Mediapipe hands
 mp_hands = mp.solutions.hands
